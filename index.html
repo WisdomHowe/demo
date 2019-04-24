@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Game</title>
+		<link rel="stylesheet" type="text/css" href="style/animate.min.css"/>
+		<link rel="stylesheet" type="text/css" href="style/base.css" />
+		<link rel="stylesheet" type="text/css" href="style/themes.css" />
+		<script type="text/javascript" src="script/jquery.min.js"></script>
+		<script type="text/javascript" src="script/pxloader-all.min.js"></script>
+		<script type="text/javascript" src="script/global.js"></script>
+	</head>
+
+	<body>
+		<div class="wrap">
+			<img class="logo" src="image/logo.png" />
+			<img class="tips" src="image/tips.png" />
+			<div class="bgMusicBtn">
+				<img class="music_on" src="image/music-on.png" />
+				<img class="music_off" src="image/music-off.png" />
+			</div>
+			
+			<!--loading-->
+			<div class="loading">
+				<img class="icon" src="image/loading-icon.gif"/>
+				<p class="schedule">0%</p>
+			</div>
+			
+			<!--首页-->
+			<div class="index">
+				<img class="flower animated" testAnim-class="rollIn" testAnim-delay="0" testAnim-duration="1s" src="image/index-flower.png" />
+				<img class="zssl animated" testAnim-class="bounceIn" testAnim-delay="600" testAnim-duration="1.5s" src="image/index-zssl.png" />
+				<img class="szjx animated" testAnim-class="bounceIn" testAnim-delay="600" testAnim-duration="1.5s" src="image/index-szjx.png" />
+				<div class="index-mm animated" testAnim-class="bounceIn" testAnim-delay="1000" testAnim-duration="1s">
+					<div class="mm">
+						<img class="img" src="image/mengmeng-img1.png"/>
+						<img class="img" src="image/mengmeng-img2.png"/>
+						<img class="img" src="image/mengmeng-img3.png"/>
+						<img class="img" src="image/mengmeng-img4.png"/>
+						<img class="img" src="image/mengmeng-img5.png"/>
+						<img class="img" src="image/mengmeng-img6.png"/>
+						<img class="img" src="image/mengmeng-img7.png"/>
+						<img class="img" src="image/mengmeng-img8.png"/>
+						<img class="img" src="image/mengmeng-img9.png"/>
+						<img class="img" src="image/mengmeng-img10.png"/>
+						<img class="img" src="image/mengmeng-img11.png"/>
+					</div>
+				</div>
+				<img class="subtitle animated" testAnim-class="bounceInLeft" testAnim-delay="1000" testAnim-duration="1s" src="image/subtitle.png" />
+				<img class="title animated" testAnim-class="bounceInRight" testAnim-delay="1200" testAnim-duration="1s" src="image/title.png" />
+				<img class="startGame animated" testAnim-class="bounceIn" testAnim-delay="1400" testAnim-duration="1s" src="image/startGame.png" />
+			</div>
+			
+			<!--有戏页面-->
+			<div class="game">
+				<!--倒计时-->
+				<div id="time" class="time">
+					<p class="rem32">时间</p>
+					<p class="rem45"><span class="second">30</span>:<span class="millisecond">00</span></p>
+				</div>
+				<!--总积分-->
+				<div class="totalIntegral"><span>0</span></div>
+				<div class="prompt"></div>
+				<img class="mengmeng" src="image/game-mengmeng.png"/>
+				<canvas id="gameCanvas" class="gameCanvas">
+					你的浏览器不支持canvas,请升级你的浏览器
+				</canvas>
+			</div>
+			
+			<!--失败弹窗-->
+			<div class="mask failureMask">
+				<div class="maskCon">
+					<img class="title" src="image/failure-title.png"/>
+					<div class="imgAnimated">
+						<div class="imgGIF clearfix">
+							<img class="img" src="image/failure-img1.png"/>
+							<img class="img" src="image/failure-img2.png"/>
+							<img class="img" src="image/failure-img3.png"/>
+							<img class="img" src="image/failure-img4.png"/>
+						</div>
+					</div>
+				</div>
+				<button class="btn restartBtn">再接一次</button>
+				<button class="btn homeBtn">回到首页</button>
+			</div>
+			<!--成功弹窗-->
+			<div class="mask successMask">
+				<div class="maskCon">
+					<img class="title" src="image/success-title.png"/>
+					<div class="imgAnimated">
+						<div class="imgGIF clearfix">
+							<img class="img" src="image/success-img1.png"/>
+							<img class="img" src="image/success-img2.png"/>
+							<img class="img" src="image/success-img3.png"/>
+							<img class="img" src="image/success-img4.png"/>
+							<img class="img" src="image/success-img5.png"/>
+							<img class="img" src="image/success-img6.png"/>
+							<img class="img" src="image/success-img7.png"/>
+						</div>
+					</div>
+				</div>
+				<button class="btn restartBtn">再接一次</button>
+				<button class="btn lotteryBtn">我要抽奖</button>
+			</div>
+			<!--关注弹窗-->
+			<div class="mask attentionMask">
+				<img class="code" src="image/QR-code.png"/>
+				<img class="pig" src="image/pig.png"/>
+				<p>长按识别二维码</p>
+				<p>关注<span class="Orange">【榄菊健康生活】</span>微信号</p>
+			</div>
+			<!--规则弹窗-->
+			<div class="mask tipsMask">
+				<img class="rule" src="image/rule.png"/>
+				<img class="close" src="image/close.png"/>
+			</div>
+			<!--背景音乐-->
+			<audio class="bgMusic" id="bgMusic" src="./music/bgMusic.mp3" autoplay preload loop="loop"></audio>
+		</div>
+
+		<script type="text/javascript">
+			//红包图片
+			var data = [
+				{
+					width:80,
+					height:100,
+					imgSrc:"image/integral1.png",
+					integral:5
+				},
+				{
+					width:97,
+					height:123,
+					imgSrc:"image/integral2.png",
+					integral:10
+				},
+				{
+					width:112,
+					height:145,
+					imgSrc:"image/integral3.png",
+					integral:15
+				},
+				{
+					width:97,
+					height:81,
+					imgSrc:"image/integral4.png",
+					integral:20
+				},
+				{
+					width:88,
+					height:106,
+					imgSrc:"image/integral5.png",
+					integral:25
+				},
+				{
+					width:129,
+					height:107,
+					imgSrc:"image/integral6.png",
+					integral:30
+				},
+				{
+					width:98,
+					height:98,
+					imgSrc:"image/integral7.png",
+					integral:35
+				},
+				{
+					width:89,
+					height:194,
+					imgSrc:"image/integral8.png",
+					integral:40
+				},
+				{
+					width:93,
+					height:205,
+					imgSrc:"image/integral9.png",
+					integral:45
+				}
+			];
+			
+			Game.init({
+				canvas: "#gameCanvas",
+				timeDOM: "#time",
+				totalIntegralDOM: ".totalIntegral span",
+				promptDOM: ".prompt",
+				options: {
+					height: window.innerHeight - rem(250),
+					awardIntegral: 1000, //获奖积分
+					addArrTime: 600, //添加红包的时间（毫秒）
+					gameTime: 30, //游戏时间（秒）
+					over: 3, //移动速度
+					redEnvelope: data,
+					receive: { //接红包容器
+						w: 205,
+						h: 160,
+						imgSrc: "image/imgSrc.png"
+					},
+					mask:{ //弹窗dom
+						success: ".successMask",
+						failure: ".failureMask"
+					},
+					musicSrc: "music/Invested.mp3" //音效
+				}
+			});
+		</script>
+	</body>
+
+</html>
